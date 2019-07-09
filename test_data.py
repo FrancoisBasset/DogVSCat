@@ -19,8 +19,4 @@ def process_test_data():
 
         img_num += 1
 
-    np.save("test_data.npy", testing_data)
     return testing_data
-
-if __name__ == "__main__":
-    process_test_data()

@@ -7,12 +7,14 @@ from tflearn.layers.estimator import regression
 import tflearn.datasets.mnist as mnist
 import tensorflow
 
+from test_data import process_test_data
+
 SIZE = 50
 
 tensorflow.reset_default_graph()
 
 train_data = np.load("train_data.npy", allow_pickle=True)
-test_data = np.load("test_data.npy", allow_pickle=True)
+test_data = process_test_data()
 
 convnet = input_data(shape=[None, SIZE, SIZE, 1], name='input')
 
