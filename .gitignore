@@ -1,2 +1,8 @@
 /Datasets
 /log
+/checkpoint
+/dogvscat.data-00000-of-00001
+/dogvscat.index
+/dogvscat.meta
+/train_data.npy
+/test_data.npy
