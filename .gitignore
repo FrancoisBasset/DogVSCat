@@ -6,3 +6,7 @@
 /dogvscat.meta
 /train_data.npy
 /test_data.npy
+/__pycache__
+/images
+/node_modules
+/package-lock.json

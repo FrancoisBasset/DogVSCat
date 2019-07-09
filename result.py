@@ -6,8 +6,17 @@ import tflearn
 import os
 import numpy as np
 from test_data import process_test_data
+from test_data import process_test_data_debug
+import sys
 
-test_data = process_test_data()
+debug = len(sys.argv) == 1
+
+if debug == True:
+    test_data = process_test_data_debug()
+else:
+    test_data = process_test_data(sys.argv[1])
+
+#debug = True
 
 fig = plt.figure()
 
@@ -41,7 +50,6 @@ convnet = regression(convnet, optimizer='adam', learning_rate=1e-20, loss='categ
 
 model = tflearn.DNN(convnet, tensorboard_dir='log')
 
-
 if os.path.exists("dogvscat.meta"):
     model.load("dogvscat")
     print("model loaded")
@@ -49,8 +57,6 @@ if os.path.exists("dogvscat.meta"):
 for num, data in enumerate(test_data):
     img_num = data[1]
     img_data = data[0]
-
-    y = fig.add_subplot(3, 5, num + 1)
 
     orig = img_data
     data = img_data.reshape(SIZE, SIZE, 1)
@@ -61,10 +67,17 @@ for num, data in enumerate(test_data):
         str_label = "Dog"
     else:
         str_label = "Cat"
+    
+    print(str_label, end="")
 
-    y.imshow(orig, cmap="gray")
-    plt.title(str_label)
+    if debug == True:
+        y = fig.add_subplot(3, 5, num + 1)
 
-    y.axes.get_xaxis().set_visible(False)
-    y.axes.get_yaxis().set_visible(False)
-plt.show()
+        y.imshow(orig, cmap="gray")
+        plt.title(str_label)
+
+        y.axes.get_xaxis().set_visible(False)
+        y.axes.get_yaxis().set_visible(False)
+
+if debug == True:
+    plt.show()

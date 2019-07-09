@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dog VS Cat</title>
+    </head>
+
+    <body>
+        <form method="POST" enctype="multipart/form-data">
+            Fichier : <input type="file" name="image" /><br>
+
+            <input type="submit" />
+        </form>
+
+        <% if (locals.result) { %>
+            <img src="<%= image %>" />
+            <span style="font-size: 200px;"><%= result %></span>
+        <% } %>
+    </body>
+</html>
