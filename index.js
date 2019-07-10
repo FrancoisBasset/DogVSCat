@@ -4,7 +4,7 @@ const spawn = require('child_process').spawn
 
 var upload = multer({
     storage: multer.diskStorage({
-        destination: './images',
+        destination: './public/images',
         filename: (req, file, next) => {
             next(null, file.originalname);
         }
@@ -13,7 +13,7 @@ var upload = multer({
 
 var app = express();
 
-app.use(express.static('./'));
+app.use(express.static('./public'));
 
 app.listen(80, () => {
     console.log('Start on 80');
@@ -24,14 +24,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', upload.single('image'), (req, res) => {
-    var dummy = spawn('C:/Users/Francois/.conda/envs/tfCPU/python.exe', ['result.py', req.file.path]);
+    var dummy = spawn('C:/Users/Francois/.conda/envs/tfCPU/python.exe', ['scripts/result.py', req.file.path]);
 
     dummy.stdout.on('data', (data) => {
         var result = data.toString()
     
         if (result == 'Dog' || result == 'Cat') {
             res.render('index.ejs', {
-                image: req.file.path,
+                image: 'images/' + req.file.filename,
                 result: result
             });
         }
