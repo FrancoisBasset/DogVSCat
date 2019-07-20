@@ -5,15 +5,32 @@
     </head>
 
     <body>
-        <form method="POST" enctype="multipart/form-data">
-            Fichier : <input type="file" name="image" /><br>
+        <table border="10">
+            <thead>
+                <tr>
+                    <td>
+                        <span style="font-size: 20px; font-weight: bold;">Chien</span>
+                    </td>
+                    <td>
+                        <span style="font-size: 20px; font-weight: bold;">Chat</span>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <% dogs.forEach(t => { %>
+                            <img src="<%= t %>" style="max-width: 200px" /><br>
+                        <% }); %>
+                    </td>
 
-            <input type="submit" />
-        </form>
-
-        <% if (locals.result) { %>
-            <img src="<%= image %>" />
-            <span style="font-size: 200px;"><%= result %></span>
-        <% } %>
+                    <td>
+                        <% cats.forEach(t => { %>
+                            <img src="<%= t %>" style="max-width: 200px" /><br>
+                        <% }); %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>

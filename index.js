@@ -1,15 +1,7 @@
 const express = require('express');
-const multer = require('multer');
 const spawn = require('child_process').spawn
+const fs = require('fs');
 
-var upload = multer({
-    storage: multer.diskStorage({
-        destination: './public/images',
-        filename: (req, file, next) => {
-            next(null, file.originalname);
-        }
-    })
-});
 
 var app = express();
 
@@ -20,20 +12,39 @@ app.listen(process.env.PORT || 80, () => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index.ejs');
-});
+    var images = fs.readdirSync('./public/images');
+    images.splice(0, 1);
 
-app.post('/', upload.single('image'), (req, res) => {
-    var dummy = spawn('C:/Users/Francois/.conda/envs/tfCPU/python.exe', ['scripts/result.py', req.file.path]);
-
-    dummy.stdout.on('data', (data) => {
-        var result = data.toString()
+    var cats = [];
+    var dogs = [];
     
-        if (result == 'Dog' || result == 'Cat') {
-            res.render('index.ejs', {
-                image: 'images/' + req.file.filename,
-                result: result
-            });
-        }
-    });
+    for (var image of images) {
+        var dummy = spawn('C:/Users/Francois/.conda/envs/tfCPU/python.exe', ['scripts/result.py', 'public/images/' + image]);
+
+        dummy.stdout.on('data', (data) => {
+            var result = data.toString()
+        
+            if (result.includes('dog') || result.includes('cat')) {
+                var type = result.split(',')[0];
+                var image = result.split(',')[1];
+                image = image.split('/')[1] + '/' + image.split('/')[2];
+
+                if (type == 'dog') {
+                    dogs.push(image);
+                }
+                if (type == 'cat') {
+                    cats.push(image);
+                }
+                
+                if (dogs.length + cats.length == images.length) {
+                    res.render('index.ejs', {
+                        dogs: dogs,
+                        cats: cats
+                    });
+
+                    return;
+                }
+            }
+        });
+    }
 });

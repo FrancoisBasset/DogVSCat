@@ -64,9 +64,9 @@ for num, data in enumerate(test_data):
     model_out = model.predict([data])[0]
 
     if np.argmax(model_out) == 1:
-        str_label = "Dog"
+        str_label = "dog," + sys.argv[1]
     else:
-        str_label = "Cat"
+        str_label = "cat," + sys.argv[1]
     
     print(str_label, end="")
 
