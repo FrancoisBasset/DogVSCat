@@ -46,7 +46,7 @@ convnet = fully_connected(convnet, 1024, activation='relu')
 convnet = dropout(convnet, 0.8)
 
 convnet = fully_connected(convnet, 2, activation='softmax')
-convnet = regression(convnet, optimizer='adam', learning_rate=1e-20, loss='categorical_crossentropy', name='targets')
+convnet = regression(convnet, optimizer='adam', learning_rate=1e-3, loss='categorical_crossentropy', name='targets')
 
 model = tflearn.DNN(convnet, tensorboard_dir='log')
 
