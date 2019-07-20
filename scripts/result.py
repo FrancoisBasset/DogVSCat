@@ -50,8 +50,8 @@ convnet = regression(convnet, optimizer='adam', learning_rate=1e-20, loss='categ
 
 model = tflearn.DNN(convnet, tensorboard_dir='log')
 
-if os.path.exists("dogvscat.meta"):
-    model.load("dogvscat")
+if os.path.exists("public/cnn/model/dogvscat.meta"):
+    model.load("public/cnn/model/dogvscat")
     print("model loaded")
 
 for num, data in enumerate(test_data):

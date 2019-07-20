@@ -26,4 +26,4 @@ for folder in tqdm(os.listdir(DOG_TRAIN)):
 
 
 shuffle(training_data)
-np.save("train_data.npy", training_data)
+np.save("public/cnn/matrix/train_data.npy", training_data)

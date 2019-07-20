@@ -10,7 +10,7 @@ SIZE = 50
 
 tensorflow.reset_default_graph()
 
-train_data = np.load("train_data.npy", allow_pickle=True)
+train_data = np.load("public/cnn/matrix/train_data.npy", allow_pickle=True)
 
 convnet = input_data(shape=[None, SIZE, SIZE, 1], name='input')
 
@@ -36,13 +36,13 @@ convnet = fully_connected(convnet, 1024, activation='relu')
 convnet = dropout(convnet, 0.8)
 
 convnet = fully_connected(convnet, 2, activation='softmax')
-convnet = regression(convnet, optimizer='adam', learning_rate=1e-20, loss='categorical_crossentropy', name='targets')
+convnet = regression(convnet, optimizer='adam', learning_rate=1e-3, loss='categorical_crossentropy', name='targets')
 
-model = tflearn.DNN(convnet, tensorboard_dir='log')
+model = tflearn.DNN(convnet, tensorboard_dir='public/cnn/log')
 
 
-if os.path.exists("dogvscat.meta"):
-    model.load("dogvscat")
+if os.path.exists("public/cnn/model/dogvscat.meta"):
+    model.load("public/cnn/model/dogvscat")
     print("model loaded")
 
 train = train_data[:-500]
@@ -55,7 +55,7 @@ Y = [i[1] for i in train]
 test_x = np.array([i[0] for i in test]).reshape(-1, SIZE, SIZE, 1)
 test_y = [i[1] for i in test]
 
-model.fit({'input': X}, {'targets': Y}, n_epoch=1, validation_set=({'input': test_x}, {'targets': test_y}), 
+model.fit({'input': X}, {'targets': Y}, n_epoch=20, validation_set=({'input': test_x}, {'targets': test_y}), 
     snapshot_step=500, show_metric=True, run_id='dogvscat')
 
-model.save("dogvscat")
+model.save("public/cnn/model/dogvscat")
